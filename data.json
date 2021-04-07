@@ -1,0 +1,16 @@
+{
+  "Records": [
+    {
+      "cf": {
+        "request": {
+          "uri": "/width/100/n/https://warehouse.medistream.co.kr/stg/images/products/5d115cd926702946e687306c/photo-1494256997604-768d1f608cac.jpeg"
+        },
+        "response": {
+          "headers": {
+            "content-type": ""
+          }
+        }
+      }
+    }
+  ]
+}
