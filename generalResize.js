@@ -15,16 +15,18 @@ const generalResize = async ({ Body, options, originalFormat, requiredFormat, ma
   while (true) {
     console.log(width, height)
     if ((width !== undefined && metadata.width > width) || (height !== undefined && metadata.height > height)) {
-      resizedImage = resizedImage.resize({ width, height }).withMetadata()
+      resizedImage = await resizedImage.resize({ width, height })
     }
 
     if (bufferByteLength > maxSize || originalFormat !== requiredFormat) {
-      resizedImage = resizedImage.toFormat(requiredFormat)
+      resizedImage = await resizedImage.toFormat(requiredFormat)
     }
-    buffer = await resizedImage.toBuffer()
-    bufferByteLength = Buffer.byteLength(buffer, 'base64')
-    console.log(bufferByteLength)
 
+    resizedImage = await resizedImage.withMetadata()
+    buffer = await resizedImage.toBuffer()
+
+    bufferByteLength = Buffer.byteLength(buffer, 'base64')
+    console.log(` =====> ${bufferByteLength} vs ${maxSize}`)
     if (bufferByteLength >= maxSize) {
       quality -= 10
       if (quality <= 60 || requiredFormat !== 'jpeg') {
