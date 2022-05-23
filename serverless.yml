@@ -1,0 +1,24 @@
+service: image-resize
+frameworkVersion: 2 || 3
+package:
+custom:
+  region:
+    ap-northeast-2: seoul
+    us-east-1: virginia
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'develop'}
+  region: ${opt:region, 'us-east-1'}
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: lambda-deploy-${self:provider.stage}-${self:custom.region.${self:provider.region}}
+    serverSideEncryption: AES256
+
+functions:
+  image-resize:
+    name: ${self:service}-${self:provider.stage}
+    timeout: 30
+    handler: main.handler
+    role: arn:aws:iam::${Account ID}:role/${self:provider.stage}_image_lambda_role
